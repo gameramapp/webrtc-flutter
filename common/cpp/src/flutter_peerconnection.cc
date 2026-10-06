@@ -378,7 +378,9 @@ void FlutterPeerConnection::RTCPeerConnectionDispose(
     base_->peerconnection_observers_.erase(it);
   }
 
-  // Leave the connection map entry for a subsequent peerConnectionClose call.
+  // Like Android: a call on a disposed connection gets "peerConnection is
+  // null" instead of reaching the closed native connection.
+  base_->peerconnections_.erase(uuid);
   result->Success();
 }
 
